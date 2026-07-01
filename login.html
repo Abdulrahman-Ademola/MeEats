@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Log in — Mo'eats</title>
+<meta name="description" content="Log in or join Mo'eats — as a shopper, producer, retailer, or rider." />
+<link rel="icon" type="image/png" href="assets/img/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/interior.css" />
+<style>body{overflow-y:auto;} .auth-form-side{position:relative;}</style>
+</head>
+<body>
+
+<div class="auth-wrap">
+  <div class="auth-visual">
+    <div class="av-glow"></div>
+    <a href="index.html" class="logo"><img src="assets/img/moeats-logo-sm.png" alt="" style="width:38px;height:38px;border-radius:9px" /> Mo'eats</a>
+    <div class="auth-quote">
+      <h2 id="visualHeadline">Welcome back to the rail for good food.</h2>
+      <p id="visualSub">Trusted wellness food, moving reliably from verified producers to retailers and homes across Nigeria.</p>
+    </div>
+    <div class="auth-tagline">More than eats</div>
+  </div>
+
+  <div class="auth-form-side">
+    <a href="index.html" class="back-home"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> Back to home</a>
+    <div class="auth-card">
+      <h1 id="formTitle">Log in</h1>
+      <p class="sub" id="formSub">Welcome back. Choose your account type to continue.</p>
+
+      <div class="tabs">
+        <button class="tab active" data-mode="login">Log in</button>
+        <button class="tab" data-mode="signup">Create account</button>
+      </div>
+
+      <div class="role-select" id="roleSelect">
+        <div class="role-opt sel" data-role="customer">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.3 4.6a1 1 0 00.9 1.4H19"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
+          <div class="rl">Shopper</div>
+        </div>
+        <div class="role-opt" data-role="producer">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M9 13h.01M15 9h.01M15 13h.01"/></svg>
+          <div class="rl">Producer</div>
+        </div>
+        <div class="role-opt" data-role="retailer">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 9l1-5h16l1 5M4 9v11a1 1 0 001 1h14a1 1 0 001-1V9M3 9h18"/></svg>
+          <div class="rl">Retailer</div>
+        </div>
+      </div>
+      <div class="role-select" style="grid-template-columns:1fr;margin-top:-16px;">
+        <div class="role-opt" data-role="rider">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" style="display:inline-block;vertical-align:middle;margin:0 8px 0 0"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 17.5h-5l-2-9H5"/></svg>
+          <span class="rl" style="display:inline;vertical-align:middle">Rider</span>
+        </div>
+      </div>
+
+      <form data-demo>
+        <div class="field signup-only" style="display:none;"><label>Full name</label><input type="text" placeholder="Your name" /></div>
+        <div class="field signup-only biz-field" style="display:none;"><label id="bizLabel">Business name</label><input type="text" placeholder="Your business name" /></div>
+        <div class="field"><label>Email or phone</label><input type="text" placeholder="you@example.com" required /></div>
+        <div class="field"><label>Password</label><input type="password" placeholder="••••••••" required /></div>
+        <button class="btn btn-forest" type="submit" id="submitBtn">Log in
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+        <div class="form-note"></div>
+      </form>
+
+      <div class="auth-alt" id="altPrompt">New to Mo'eats? <a href="#" id="altLink">Create an account</a></div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script>
+(function(){
+  var params=new URLSearchParams(location.search);
+  var role=params.get('role')||'customer';
+  var mode='login';
+  var roleOpts=document.querySelectorAll('.role-opt');
+  var tabs=document.querySelectorAll('.tab');
+  var signupFields=document.querySelectorAll('.signup-only');
+  var bizField=document.querySelector('.biz-field');
+  var bizLabel=document.getElementById('bizLabel');
+  var formTitle=document.getElementById('formTitle');
+  var formSub=document.getElementById('formSub');
+  var submitBtn=document.getElementById('submitBtn');
+  var altPrompt=document.getElementById('altPrompt');
+  var vHead=document.getElementById('visualHeadline');
+  var vSub=document.getElementById('visualSub');
+  var copy={
+    customer:{h:'Welcome back to the rail for good food.',s:'Trusted wellness food, moving reliably from verified producers to your door.'},
+    producer:{h:'Your products, reaching further.',s:'List verified wellness products and connect with retailers and homes across Nigeria.'},
+    retailer:{h:'Your shelf, always stocked.',s:'Restock verified wellness products from one trusted source, on a schedule you can plan around.'},
+    rider:{h:'Your shift, your earnings.',s:'Move wellness food across the city with fair pay, steady demand, and smart routing.'}
+  };
+  var bizNames={producer:'Business / brand name',retailer:'Store name',rider:'Vehicle type'};
+  function setRole(r){
+    role=r;
+    roleOpts.forEach(function(o){o.classList.toggle('sel',o.dataset.role===r);});
+    vHead.textContent=copy[r].h; vSub.textContent=copy[r].s;
+    if(r==='customer'){bizField.style.display='none';}
+    else{bizLabel.textContent=bizNames[r]; if(mode==='signup')bizField.style.display='';}
+    render();
+  }
+  function setMode(m){
+    mode=m;
+    tabs.forEach(function(t){t.classList.toggle('active',t.dataset.mode===m);});
+    signupFields.forEach(function(f){
+      if(f.classList.contains('biz-field')){f.style.display=(m==='signup'&&role!=='customer')?'':'none';}
+      else{f.style.display=(m==='signup')?'':'none';}
+    });
+    render();
+  }
+  function render(){
+    var isSignup=mode==='signup';
+    var roleLabel=role.charAt(0).toUpperCase()+role.slice(1);
+    formTitle.textContent=isSignup?('Create your '+(role==='customer'?'':roleLabel+' ')+'account'):'Log in';
+    formSub.textContent=isSignup?"Join Mo'eats and get started in minutes.":'Welcome back. Choose your account type to continue.';
+    submitBtn.innerHTML=(isSignup?'Create account':'Log in')+' <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+    altPrompt.innerHTML=isSignup?'Already have an account? <a href="#" id="altLink">Log in</a>':`New to Mo'eats? <a href="#" id="altLink">Create an account</a>`;
+    document.getElementById('altLink').addEventListener('click',function(e){e.preventDefault();setMode(isSignup?'login':'signup');});
+  }
+  roleOpts.forEach(function(o){o.addEventListener('click',function(){setRole(o.dataset.role);});});
+  tabs.forEach(function(t){t.addEventListener('click',function(){setMode(t.dataset.mode);});});
+  setRole(role); setMode('login');
+})();
+</script>
+</body>
+</html>
